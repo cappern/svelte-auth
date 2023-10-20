@@ -1,7 +1,21 @@
 import { SvelteKitAuth } from "@auth/sveltekit"
 import GitHub from "@auth/core/providers/github"
-import { GITHUB_ID, GITHUB_SECRET } from "$env/static/private"
+import AzureProvider from "@auth/core/providers/azure-ad"
+import { GITHUB_ID, GITHUB_SECRET, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET } from "$env/static/private"
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import db from "$lib/db.js"
 
 export const handle = SvelteKitAuth({
-  providers: [GitHub({ clientId: GITHUB_ID, clientSecret: GITHUB_SECRET })],
+  adapter: PrismaAdapter(db),
+  providers: [
+    GitHub({ clientId: GITHUB_ID, clientSecret: GITHUB_SECRET }),
+    AzureProvider({
+      clientId: AZURE_CLIENT_ID,
+      clientSecret: AZURE_CLIENT_SECRET,
+      authorization: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+      token: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+      issuer: `https://login.microsoftonline.com/e3e97646-ab6b-4611-87d8-f64dc26e09ac/v2.0`,
+      tenantId: process.env.AZURE_AD_TENANT_ID,
+  })]
+  
 })

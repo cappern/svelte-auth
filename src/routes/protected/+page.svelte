@@ -9,6 +9,9 @@
   signed in.
 </p>
 <p>Session expiry: {$page.data.session?.expires}</p>
+
+<strong>{JSON.stringify($page.data.session.user)}</strong>
+
 {:else}
 <h1>Access Denied</h1>
 <p>
