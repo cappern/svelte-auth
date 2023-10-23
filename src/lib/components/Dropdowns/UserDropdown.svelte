@@ -1,9 +1,12 @@
 <script>
   // library for creating dropdown menu appear on click
   import { createPopper } from "@popperjs/core"
-
+  import { Avatar, Dropdown, DropdownHeader, DropdownItem, DropdownDivider } from 'flowbite-svelte';
+  import { ChevronDownSolid } from 'flowbite-svelte-icons';
   import { page } from "$app/stores"
   // core components
+
+  $: activeUrl = $page.url.pathname;
 
   const defaultImage = "$lib/assets/img/team-1-800x800.jpg"
 
@@ -23,77 +26,24 @@
       })
     }
   }
+  
 </script>
 
 <div>
-  <a
-    class="text-slate-500 block"
-    href="#pablo"
-    bind:this={btnDropdownRef}
-    on:click={toggleDropdown}
-  >
-    <div class="items-center flex">
-      {#if $page.data.session}
-        <!-- Add this line -->
-        {#if $page.data.session.user?.image}
-          <!-- And this line -->
-          <span
-            class="w-12 h-12 text-sm text-white bg-slate-200 inline-flex items-center justify-center rounded-full"
-          >
-            <img
-              alt="..."
-              class="w-full rounded-full align-middle border-none shadow-lg"
-              src={$page.data.session.user.image}
-            />
-          </span>
-        {:else}
-          <span
-            class="w-12 h-12 text-sm text-white bg-slate-200 inline-flex items-center justify-center rounded-full"
-          >
-            <img
-              alt="..."
-              class="w-full rounded-full align-middle border-none shadow-lg"
-              src={defaultImage}
-            />
-          </span>
-        {/if}
+  <Avatar id="user-drop" src="{$page.data.session?.user?.image}" class="cursor-pointer"/>
+  <Dropdown triggeredBy="#user-drop">
+    <DropdownHeader>
+      <span class="block text-sm font-semibold">{$page.data.session?.user?.name}</span>
+      {#if $page.data.session?.user?.email}
+      <span class="block truncate text-sm font-extralight">{$page.data.session?.user?.email}</span>
       {/if}
-    </div>
-  </a>
-  <div
-    bind:this={popoverDropdownRef}
-    class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48 {dropdownPopoverShow
-      ? 'block'
-      : 'hidden'}"
-  >
-    <a
-      href="#pablo"
-      on:click={(e) => e.preventDefault()}
-      class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700"
-    >
-      Action
-    </a>
-    <a
-      href="#pablo"
-      on:click={(e) => e.preventDefault()}
-      class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700"
-    >
-      Another action
-    </a>
-    <a
-      href="#pablo"
-      on:click={(e) => e.preventDefault()}
-      class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700"
-    >
-      Something else here
-    </a>
-    <div class="h-0 my-2 border border-solid border-slate-100" />
-    <a
-      href="#pablo"
-      on:click={(e) => e.preventDefault()}
-      class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700"
-    >
-      Seprated link
-    </a>
-  </div>
+      
+    </DropdownHeader>
+    <DropdownItem href="/admin/dashboard">Dashboard</DropdownItem>
+    <DropdownItem href="/account">Account</DropdownItem>
+    
+    <DropdownDivider />
+    <DropdownItem href="/auth/signout">Sign out</DropdownItem>
+  </Dropdown>
+  
 </div>

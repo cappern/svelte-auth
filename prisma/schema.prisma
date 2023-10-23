@@ -41,6 +41,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Guests        Guest[]
 }
 
 model VerificationToken {
@@ -49,4 +50,20 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Guest {
+  id        String   @id @default(cuid())
+  name      String?
+  mobile    String?  @unique
+  expire    DateTime @default(dbgenerated("NOW() + interval '1 week'"))
+  contact   User     @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contactId String
+  status    Status
+}
+
+enum Status {
+  ACTIVE
+  EXPIRED
+  NOT_ACTIVE
 }

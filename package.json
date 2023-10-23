@@ -7,7 +7,7 @@
   },
   "homepage": "https://sveltekit-auth-example.vercel.app",
   "scripts": {
-    "dev": "vite dev",
+    "dev": "vite dev --host",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -17,6 +17,9 @@
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
     "autoprefixer": "^10.4.16",
+    "flowbite": "^1.8.1",
+    "flowbite-svelte": "^0.44.18",
+    "flowbite-svelte-icons": "^0.4.4",
     "postcss": "^8.4.31",
     "prisma": "^5.4.2",
     "svelte": "latest",
@@ -31,7 +34,10 @@
     "@auth/sveltekit": "latest",
     "@fontsource/fira-mono": "^5.0.8",
     "@prisma/client": "^5.4.2",
-    "@tailwindcss/forms": "^0.5.6"
+    "@tailwindcss/forms": "^0.5.6",
+    "flowbite-svelte-blocks": "^0.5.1",
+    "nodemailer": "^6.9.6",
+    "svelte-heros": "^5.2.0"
   },
   "type": "module"
 }
